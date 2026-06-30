@@ -13,6 +13,7 @@ ASSET_DIR = Path(__file__).resolve().parent / "assets"
 
 ASSET_FILES = {
     "kaladin": "kaladin.png",
+    "ponte_e_ponteiros": "ponte_e_ponteiros.png",
     "ponteiro": "ponteiro.png",
     "ponte": "ponte.png",
     "chao": "chao.png",
@@ -560,21 +561,29 @@ class BridgeToGemGame:
         ground_y = 438
         bob = 2 if int(self.state.storm_phase * 6) % 2 == 0 else 0
 
-        if "ponte" in self.images:
-            self.canvas.create_image(x - 60, ground_y - 124 + bob, image=self.images["ponte"], anchor="nw")
+        if "ponte_e_ponteiros" in self.images:
+            self.canvas.create_image(
+                x - 60,
+                ground_y - 124 + bob,
+                image=self.images["ponte_e_ponteiros"],
+                anchor="nw",
+            )
         else:
-            self.draw_pixel_bridge(x - 58, ground_y - 86 + bob, 314)
+            if "ponte" in self.images:
+                self.canvas.create_image(x - 60, ground_y - 124 + bob, image=self.images["ponte"], anchor="nw")
+            else:
+                self.draw_pixel_bridge(x - 58, ground_y - 86 + bob, 314)
 
-        crew_palettes = [
-            {"B": "#0f6fa4", "b": "#064466", "H": "#2e1b17"},
-            {"B": "#3f5f73", "b": "#263d4a", "H": "#4a251c"},
-            {"B": "#146c81", "b": "#0d4050", "H": "#1f1816"},
-            {"B": "#59606d", "b": "#363b46", "H": "#512721"},
-            {"B": "#0c7f9e", "b": "#075061", "H": "#31201d"},
-        ]
-        for i, palette in enumerate(crew_palettes):
-            px = x + 82 + i * 38
-            self.draw_bridgeman_sprite(px, ground_y - 4 + (i % 2) * 2, palette)
+            crew_palettes = [
+                {"B": "#0f6fa4", "b": "#064466", "H": "#2e1b17"},
+                {"B": "#3f5f73", "b": "#263d4a", "H": "#4a251c"},
+                {"B": "#146c81", "b": "#0d4050", "H": "#1f1816"},
+                {"B": "#59606d", "b": "#363b46", "H": "#512721"},
+                {"B": "#0c7f9e", "b": "#075061", "H": "#31201d"},
+            ]
+            for i, palette in enumerate(crew_palettes):
+                px = x + 82 + i * 38
+                self.draw_bridgeman_sprite(px, ground_y - 4 + (i % 2) * 2, palette)
 
         if self.state.kaladin_flash_time > 0:
             self.draw_kaladin_special_scene(x - 44, ground_y + bob)
