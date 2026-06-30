@@ -32,10 +32,4 @@ O jogo usa apenas a biblioteca padrão do Python (`tkinter`), então não precis
 - Kaladin e ponteiros desenhados como sprites em pixel art.
 - Flechas, tempestade e comandos falsos como distrações visuais progressivas.
 
-## Próximas melhorias sugeridas
 
-- Fases com upgrades entre tentativas.
-- Sons de passos, vento, flechas e ponte.
-- Sprites próprios para personagens e cenário.
-- Configuração de dificuldade.
-- Ranking por tempo, combo e dano recebido.

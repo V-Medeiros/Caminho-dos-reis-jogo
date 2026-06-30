@@ -125,6 +125,7 @@ class GameState:
     combo: int = 0
     best_combo: int = 0
     wind_time: float = 0.0
+    kaladin_flash_time: float = 0.0
     wind_ignore_error: bool = False
     feedback: str = ""
     feedback_color: str = "#f5e6a6"
@@ -237,6 +238,7 @@ class BridgeToGemGame:
 
         state.morale = 20
         state.wind_time = 8.0
+        state.kaladin_flash_time = 0.85
         state.wind_ignore_error = True
         state.event_time = min(state.event_time_max * 1.25, state.event_time + 2.5)
         state.feedback = "Vento Protetor!"
@@ -317,6 +319,7 @@ class BridgeToGemGame:
         state.event_time -= dt * wind_factor
         state.feedback_time = max(0, state.feedback_time - dt)
         state.wind_time = max(0, state.wind_time - dt)
+        state.kaladin_flash_time = max(0, state.kaladin_flash_time - dt)
         state.storm_phase += dt
 
         if state.event_time <= 0:
@@ -404,8 +407,6 @@ class BridgeToGemGame:
             fill="#ffffff",
             font=("Segoe UI", 26, "bold"),
         )
-        self.draw_bridge_team(0.0)
-
     def draw_scene(self) -> None:
         self.draw_background()
         self.draw_world()
@@ -575,7 +576,34 @@ class BridgeToGemGame:
             px = x + 82 + i * 38
             self.draw_bridgeman_sprite(px, ground_y - 4 + (i % 2) * 2, palette)
 
-        self.draw_kaladin_sprite(x - 44, ground_y + bob, self.state.wind_time > 0)
+        if self.state.kaladin_flash_time > 0:
+            self.draw_kaladin_special_scene(x - 44, ground_y + bob)
+
+    def draw_kaladin_special_scene(self, x: float, ground_y: float) -> None:
+        c = self.canvas
+        flash_ratio = self.state.kaladin_flash_time / 0.85
+        burst = 1 - flash_ratio
+
+        for i in range(5):
+            offset = burst * (34 + i * 8)
+            y = ground_y - 86 + i * 13
+            c.create_line(
+                x - 18 - offset,
+                y + 20,
+                x + 126 + offset,
+                y - 18,
+                fill="#9be7ff",
+                width=3 if i % 2 == 0 else 2,
+            )
+
+        c.create_text(
+            x + 44,
+            ground_y - 132 - burst * 18,
+            text="Vento Protetor!",
+            fill="#d9fff2",
+            font=("Segoe UI", 14, "bold"),
+        )
+        self.draw_kaladin_sprite(x, ground_y, True)
 
     def draw_hud(self) -> None:
         state = self.state
