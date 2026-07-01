@@ -2,7 +2,7 @@
 
 # Ponte para a Gema
 
-Protótipo em Python de um jogo de reflexo e `time event` inspirado na travessia de pontes pelas Planícies Fragmentadas.
+Protótipo em Python de um jogo de reflexo e `time event` inspirado na travessia de pontes pelas Planícies Fragmentadas do livro Caminho dos reis.
 
 ## Como rodar
 
